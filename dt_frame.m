@@ -14,10 +14,11 @@ for i=indexstart:indexend
     yc=y(i);
    CD(yc,xc)=CD(yc,xc) + p(i);
 end
-CD_1=CD/spread *255;
+CD_1=(CD/spread *200)+56;
 %spread value tunes image precision through differentiating point values
 plot=image(CD_1);
+colormap bone
+xlim(0,width);
+ylim(0,height);
 plot
-
 end
-
