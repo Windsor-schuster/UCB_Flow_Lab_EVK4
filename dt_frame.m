@@ -1,8 +1,8 @@
-function [plot] = dt_frame(filename, flipX,flipY, width, height,tstart,tend,cd_data)
-%cd_data = load_cd_events(filename, flipX, flipY);
+function [plot] = dt_frame(filename, flipX,flipY, width, height,tstart,tend)
+cd_data = load_cd_events(filename, flipX, flipY);
 
-x=cd_data.x;
-y=cd_data.y;
+x=cd_data.x+1;
+y=cd_data.y+1;
 ts=cd_data.ts;
 p=cd_data.p;
 CD=zeros(height,width);
@@ -14,8 +14,8 @@ for i=indexstart:indexend
     yc=y(i);
    CD(yc,xc)=CD(yc,xc) + p(i);
 end
-CD(CD>=100)=NaN;
-lim=max(abs(CD),[],'all');
+CD(abs(CD)>=1000)=NaN;
+lim=max(abs(CD),[],'all')
 plot=image(CD,'CDataMapping','scaled')
 colormap(parula)
 colorbar;
