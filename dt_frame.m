@@ -1,5 +1,5 @@
-function [plot] = dt_frame(filename, flipX,flipY, width, height,tstart,tend,spread)
-cd_data = load_cd_events(filename, flipX, flipY);
+function [plot] = dt_frame(filename, flipX,flipY, width, height,tstart,tend,cd_data)
+%cd_data = load_cd_events(filename, flipX, flipY);
 
 x=cd_data.x;
 y=cd_data.y;
@@ -14,11 +14,15 @@ for i=indexstart:indexend
     yc=y(i);
    CD(yc,xc)=CD(yc,xc) + p(i);
 end
-CD_1=(CD/spread *200)+56;
-%spread value tunes image precision through differentiating point values
-plot=image(CD_1);
-colormap bone
-xlim(0,width);
-ylim(0,height);
-plot
+CD(CD>=100)=NaN;
+lim=max(abs(CD),[],'all');
+plot=image(CD,'CDataMapping','scaled')
+colormap(parula)
+colorbar;
+clim([-lim,lim])
+colorbar
+xlim([0,width]);
+ylim([0,height]);
+
 end
+
